@@ -49,20 +49,9 @@ resource "aws_instance" "playground" {
     ami             = "${var.ami}"
     instance_type   = "t2.nano"
     count           = 1
-    key_name        = "automation"
 
     vpc_security_group_ids = ["${aws_security_group.playground.id}"]
 
-    connection {
-      user = "ubuntu"
-    }
-    provisioner "remote-exec" {
-      inline = [
-        "sudo apt-get -y update",
-        "sudo apt-get -y install nginx",
-        "sudo service nginx start",
-      ]
-    }
     tags = {
         Name = "playground"
         Environment = "dev"
