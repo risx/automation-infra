@@ -31,6 +31,13 @@ resource "aws_security_group" "playground" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = {
     Name = "playground"
     Environment = "dev"
@@ -46,16 +53,20 @@ resource "aws_instance" "playground" {
 
     vpc_security_group_ids = ["${aws_security_group.playground.id}"]
 
+    connection {
+      user = "ubuntu"
+    }
+    provisioner "remote-exec" {
+      inline = [
+        "sudo apt-get -y update",
+        "sudo apt-get -y install nginx",
+        "sudo service nginx start",
+      ]
+    }
     tags = {
         Name = "playground"
         Environment = "dev"
         Created = "timestamp()" 
     }
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get -y update",
-      "sudo apt-get -y install nginx",
-      "sudo service nginx start",
-    ]
-  }
+
 }
