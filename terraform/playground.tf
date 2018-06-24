@@ -2,6 +2,12 @@ provider "aws" {
   region     = "us-west-2"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "risx-terraform-state"
+    region = "us-west-2"
+  }
+}
 variable "ami" { default = "ami-db710fa3" } 
 
 resource "aws_security_group" "playground" {
