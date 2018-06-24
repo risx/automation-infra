@@ -1,11 +1,12 @@
 provider "aws" {
-  region     = "us-west-2"
+  region = "us-west-2"
 }
 
 terraform {
   backend "s3" {
     bucket = "risx-terraform-state"
     region = "us-west-2"
+    key    = "terraform.tfstate"
   }
 }
 variable "ami" { default = "ami-db710fa3" } 
@@ -45,9 +46,9 @@ resource "aws_security_group" "playground" {
   }
 
   tags = {
-    Name = "playground"
+    Name        = "playground"
     Environment = "dev"
-    Created = "${timestamp()}" 
+    Created     = "${timestamp()}" 
   }
 }
 
@@ -59,9 +60,9 @@ resource "aws_instance" "playground" {
     vpc_security_group_ids = ["${aws_security_group.playground.id}"]
 
     tags = {
-        Name = "playground"
+        Name        = "playground"
         Environment = "dev"
-        Created = "${timestamp()}" 
+        Created     = "${timestamp()}" 
     }
 
 }
