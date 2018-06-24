@@ -47,7 +47,7 @@ resource "aws_security_group" "playground" {
   tags = {
     Name = "playground"
     Environment = "dev"
-    Created = "timestamp()" 
+    Created = "${timestamp()}" 
   }
 }
 
@@ -61,7 +61,7 @@ resource "aws_instance" "playground" {
     tags = {
         Name = "playground"
         Environment = "dev"
-        Created = "timestamp()" 
+        Created = "${timestamp()}" 
     }
 
 }
