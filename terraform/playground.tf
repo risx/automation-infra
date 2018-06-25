@@ -9,7 +9,17 @@ terraform {
     key    = "terraform.tfstate"
   }
 }
-variable "ami" { default = "ami-db710fa3" } 
+
+data "terraform_remote_state" "playground" {
+  backend = "s3"
+  config {
+    bucket = "risx-terraform-state"
+    key    = "terraform.tfstate"
+    region = "us-west-2"
+  }
+}
+
+variable "ami" { "default" = "ami-db710fa3" }
 
 resource "aws_security_group" "playground" {
   name        = "playground SG"
