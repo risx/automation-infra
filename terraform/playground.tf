@@ -66,6 +66,7 @@ resource "aws_instance" "playground" {
     ami             = "${var.ami}"
     instance_type   = "t2.nano"
     count           = 1
+    key_name        = "automation"
 
     vpc_security_group_ids = ["${aws_security_group.playground.id}"]
 
