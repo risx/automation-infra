@@ -20,6 +20,7 @@ data "terraform_remote_state" "playground" {
 }
 
 variable "ami" { "default" = "ami-db710fa3" }
+variable "env" { "default" = "dev" }
 
 resource "aws_security_group" "playground" {
   name        = "playground SG"
@@ -54,10 +55,17 @@ resource "aws_security_group" "playground" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  
+  egress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
     Name        = "playground"
-    Environment = "dev"
+    Environment = "${var.env}"
     Created     = "${timestamp()}" 
   }
 }
@@ -72,7 +80,7 @@ resource "aws_instance" "playground" {
 
     tags = {
         Name        = "playground"
-        Environment = "dev"
+        Environment = "${var.env}"
         Created     = "${timestamp()}" 
     }
 

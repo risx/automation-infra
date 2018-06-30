@@ -1,0 +1,7 @@
+#Run Example: ansible-playbook -i ec2.py -u ubuntu --key-file="~/.ssh/automation.pem" setup-playground.yml --limit "tag_Name_playground"
+---
+- hosts: all
+  gather_facts: true
+  roles:
+    - python-check
+    - install-nginx
