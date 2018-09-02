@@ -1,6 +1,6 @@
 # Info
-Some stuff I don't care about that may help some other people, enjoy!
-Maybe I'll do a blog post on some of the stuff in here @ https://risx.io
+Big ol monorepo for all my infrastructure stuff I'm willing to make public!
+Some of it will be explained at my blog, which you can find here: https://risx.io
 
 
 
