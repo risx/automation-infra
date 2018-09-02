@@ -1,0 +1,57 @@
+---
+- name: "check for or install jenkins requirements | ubuntu"
+  apt_repository:
+    repo: "ppa:webupd8team/java"
+    state: present
+  become: yes
+
+- name: "accept oracle license | ubuntu"
+  debconf:
+    name: oracle-java8-installer
+    question: shared/accepted-oracle-license-v1-1
+    value: 'true'
+    vtype: select
+  become: yes
+
+- name: "install depedancies for both jenkins and lower jobs | ubuntu"
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  become: yes
+  with_items:
+    - "oracle-java8-installer"
+    - "oracle-java8-set-default"
+    - "git"
+  
+- name: "add jenskin to apt repoistory for install | ubuntu"
+  apt_repository:
+    repo: "deb https://pkg.jenkins.io/debian-stable binary/"
+    state: present
+  become: yes
+
+- name: "install jenkins | ubuntu"
+  apt:
+    name: jenkins
+    state: present
+    allow_unauthenticated: yes
+  become: yes
+
+# - name: clone job repo
+#   git:
+#     repo: https://github.com/risx/{{ job_repo }}
+#     version: "{{ repo_branch }}"
+#     dest: "/tmp/{{ job_repo }}"
+#   connection: local
+#   run_once: true
+
+# - name: copy jobs to proper location for jenkins
+#   copy:
+#     src: "/tmp/{{ job_repo }}"
+#     dest: "{{ jenkins_home }}/jobs/"
+#     owner: jenkins
+#     group: jenkins
+#     mode: 0644
+#   become: yes
+
+

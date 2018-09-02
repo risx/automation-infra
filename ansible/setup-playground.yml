@@ -1,7 +1,9 @@
-#Run Example: ansible-playbook -i ec2.py -u ubuntu --key-file="~/.ssh/automation.pem" setup-playground.yml --limit "tag_Name_playground"
+#Run Example: ansible-playbook -i ec2.py -u ubuntu --key-file="~/.ssh/automation.pem" setup-playground.yml --limit "tag_Name_playground" 
+#Depends on the mood but you can also limit it by chhanging hosts to "tag_Name_{{ name }}" and adding to the command :--extra-vars "name=playground"
 ---
 - hosts: all
   gather_facts: true
   roles:
-    - python-check
-    - install-nginx
+    - jenkins/python-check
+    - jenkins/install-jenkins
+    - web/install-nginx

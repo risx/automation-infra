@@ -1,0 +1,16 @@
+- name: clone job repo
+  git:
+    repo: https://github.com/risx/{{ job_repo }}
+    version: "{{ repo_branch }}"
+    dest: "/tmp/{{ job_repo }}"
+  connection: local
+  run_once: true
+
+- name: copy jobs to proper location for jenkins
+  copy:
+    src: "/tmp/{{ job_repo }}"
+    dest: "{{ jenkins_home }}/jobs/"
+    owner: jenkins
+    group: jenkins
+    mode: 0644
+  become: yes
